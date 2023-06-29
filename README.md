@@ -27,7 +27,6 @@ Banking system using Go, Docker, Postgres and gRPC
 - [⚙️ Features](#-features)
 - [🧩 Modules](#modules)
 - [🚀 Getting Started](#-getting-started)
-- [🗺 Roadmap](#-roadmap)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
 - [👏 Acknowledgments](#-acknowledgments)
@@ -81,9 +80,11 @@ Banking system using Go, Docker, Postgres and gRPC
 ### ✔️ Prerequisites
 
 Before you begin, ensure that you have the following prerequisites installed:
-> - `ℹ️ Requirement 1`
-> - `ℹ️ Requirement 2`
-> - `ℹ️ ...`
+> - `ℹ️ Golang`
+> - `ℹ️ SQLC`
+> - `ℹ️ SQL`
+> - `ℹ️ Docker`
+> - `ℹ️ Kubernetes`
 
 ### 📦 Installation
 
@@ -98,32 +99,15 @@ cd Banking-System
 ```
 
 3. Install the dependencies:
-```sh
-`ℹ️  INSERT-DESCRIPTION`
-```
+
 
 ### 🎮 Using Banking-System
 
-```sh
-`ℹ️  INSERT-DESCRIPTION`
-```
 
 ### 🧪 Running Tests
-```sh
-`ℹ️  INSERT-DESCRIPTION`
-```
 
 ---
 
-
-## 🗺 Roadmap
-
-> - [X] `ℹ️  Task 1: Implement X`
-> - [ ] `ℹ️  Task 2: Refactor Y`
-> - [ ] `ℹ️ ...`
-
-
----
 
 ## 🤝 Contributing
 
