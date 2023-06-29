@@ -25,7 +25,6 @@ Banking system using Go, Docker, Postgres and gRPC
 - [📒 Table of Contents](#-table-of-contents)
 - [📍 Overview](#-overview)
 - [⚙️ Features](#-features)
-- [📂 Project Structure](#project-structure)
 - [🧩 Modules](#modules)
 - [🚀 Getting Started](#-getting-started)
 - [🗺 Roadmap](#-roadmap)
@@ -55,14 +54,6 @@ Banking system using Go, Docker, Postgres and gRPC
 1. Establishing and overseeing bank accounts.
 2. Documenting all modifications in the balances of individual accounts.
 3. Executing a transaction to transfer funds between two accounts.
-
----
-
-
-## 📂 Project Structure
-
-
-
 
 ---
 
