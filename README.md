@@ -67,6 +67,10 @@ Banking system using Go, Docker, Postgres and gRPC
 | [000001_init_schema.down.sql](https://github.com/atharvak1997/Banking-System/blob/main/db\migration\000001_init_schema.down.sql) | The code snippet is responsible for dropping three database tables: entries, transfers, and accounts.                                                                                                                                                     |
 | [000001_init_schema.up.sql](https://github.com/atharvak1997/Banking-System/blob/main/db\migration\000001_init_schema.up.sql)     | This code snippet creates three tables: "accounts", "entries", and "transfers" with their respective columns. It establishes foreign key relationships between the tables, adds indexes on relevant columns, and includes comments on column constraints. |
 
+| [account.sql](https://github.com/atharvak1997/Banking-System/blob/main/db\query\account.sql)     | This code snippet has functions like CreateAccount, GetAccount, UpdateAccount, UpdateAccountBalance, DeleteAccount|
+
+| [entry.sql](https://github.com/atharvak1997/Banking-System/blob/main/db\query\entry.sql)     | This code snippet is responsible for creating enrtries of numbers in respective accounts|
+
 </details>
 
 ---
