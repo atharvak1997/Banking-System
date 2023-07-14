@@ -45,10 +45,10 @@ jobs:
 
     - name: Install Golang-migrate
       run: |
-        curl -LOk https://github.com/golang-migrate/migrate/releases/download/v4.16.2/migrate.windows-amd64.zip
+        curl -LOk https://github.com/golang-migrate/migrate/releases/download/v4.16.2/migrate.linux-386.tar.gz | tar xvz
         # sudo unzip -o migrate.windows-amd64.zip -d "migrate"
-        sudo unzip -o migrate.windows-amd64.zip
-        sudo mv migrate.exe /usr/bin/migrate
+        # sudo unzip -o migrate.windows-amd64.zip
+        sudo mv migrate.linux-amd64 /usr/bin/migrate
         which migrate
 
 
