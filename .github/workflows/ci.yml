@@ -48,7 +48,7 @@ jobs:
         curl -L https://github.com/golang-migrate/migrate/releases/download/v4.16.2/migrate.linux-386.tar.gz | tar xvz
         # sudo unzip -o migrate.windows-amd64.zip -d "migrate"
         # sudo unzip -o migrate.windows-amd64.zip
-        sudo mv migrate /usr/bin/migrate
+        sudo mv migrate /usr/bin/
         which migrate
 
 
