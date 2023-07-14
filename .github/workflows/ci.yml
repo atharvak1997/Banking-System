@@ -46,8 +46,8 @@ jobs:
         curl -LOk https://github.com/golang-migrate/migrate/releases/download/v4.16.2/migrate.windows-amd64.zip
         sudo apt-get install unzip
         unzip -o migrate.windows-amd64.zip
-        sudo mv migrate.windows-amd64 /usr/bin/migrate
-        # which migrate
+        sudo mv migrate /usr/bin/migrate
+        which migrate
 
 
     - name: Run migrations
