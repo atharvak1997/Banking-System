@@ -8,10 +8,16 @@ dropdb:
 	docker exec -it bankSys  dropdb simple_bank
 
 migrateup:
-	migrate -path db/migration -database "postgresql://root:99220Avk97*@localhost:5432/simple_bank?sslmode=disable" -verbose up
+	migrate -path . -database "postgresql://root:99220Avk97*@localhost:5432/simple_bank?sslmode=disable" -verbose up
 
 migratedown:
-	migrate -path db/migration -database "postgresql://root:99220Avk97*@localhost:5432/simple_bank?sslmode=disable" -verbose down
+	migrate -path . -database "postgresql://root:99220Avk97*@localhost:5432/simple_bank?sslmode=disable" -verbose down
+
+migratedown1:
+	migrate -path . -database "postgresql://root:99220Avk97*@localhost:5432/simple_bank?sslmode=disable" -verbose down 1
+
+migrateup1:
+	migrate -path . -database "postgresql://root:99220Avk97*@localhost:5432/simple_bank?sslmode=disable" -verbose up 1
 
 test:
 	go test -v -cover ./...
@@ -22,4 +28,4 @@ server:
 sqlc:
 	sqlc generate
 
-.PHONY: createdb dropdb postgres migrateup migratedown test server sqlc
+.PHONY: createdb dropdb postgres migrateup migratedown test server sqlc migrateup1 migratedown1
