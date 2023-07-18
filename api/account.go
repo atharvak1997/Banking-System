@@ -103,7 +103,7 @@ func (server *Server) listAccount(ctx *gin.Context) {
 	}
 
 	arg := db.ListAccountsParams{
-		Owner:  "Atharva Kukade",
+		// Owner:  "Atharva Kukade",
 		Limit:  req.PageSize,
 		Offset: (req.PageID - 1) * req.PageSize,
 	}
