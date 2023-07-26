@@ -1,190 +1,166 @@
-[![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/golang-migrate/migrate/ci.yaml?branch=master)](https://github.com/golang-migrate/migrate/actions/workflows/ci.yaml?query=branch%3Amaster)
-[![GoDoc](https://pkg.go.dev/badge/github.com/golang-migrate/migrate)](https://pkg.go.dev/github.com/golang-migrate/migrate/v4)
-[![Coverage Status](https://img.shields.io/coveralls/github/golang-migrate/migrate/master.svg)](https://coveralls.io/github/golang-migrate/migrate?branch=master)
-[![packagecloud.io](https://img.shields.io/badge/deb-packagecloud.io-844fec.svg)](https://packagecloud.io/golang-migrate/migrate?filter=debs)
-[![Docker Pulls](https://img.shields.io/docker/pulls/migrate/migrate.svg)](https://hub.docker.com/r/migrate/migrate/)
-![Supported Go Versions](https://img.shields.io/badge/Go-1.19%2C%201.20-lightgrey.svg)
-[![GitHub Release](https://img.shields.io/github/release/golang-migrate/migrate.svg)](https://github.com/golang-migrate/migrate/releases)
-[![Go Report Card](https://goreportcard.com/badge/github.com/golang-migrate/migrate/v4)](https://goreportcard.com/report/github.com/golang-migrate/migrate/v4)
+# Banking-System
+Banking system using Go, Docker, Postgres and gRPC
 
-# migrate
+<div align="center">
+<h1 align="center">
+<img src="https://raw.githubusercontent.com/PKief/vscode-material-icon-theme/ec559a9f6bfd399b82bb44393651661b08aaf7ba/icons/folder-markdown-open.svg" width="100" />
+<br>Banking-System
+</h1>
+<h3>◦ </h3>
+<h3>◦ Developed with the software and tools listed below.</h3>
 
-__Database migrations written in Go. Use as [CLI](#cli-usage) or import as [library](#use-in-your-go-project).__
-
-* Migrate reads migrations from [sources](#migration-sources)
-   and applies them in correct order to a [database](#databases).
-* Drivers are "dumb", migrate glues everything together and makes sure the logic is bulletproof.
-   (Keeps the drivers lightweight, too.)
-* Database drivers don't assume things or try to correct user input. When in doubt, fail.
-
-Forked from [mattes/migrate](https://github.com/mattes/migrate)
-
-## Databases
-
-Database drivers run migrations. [Add a new database?](database/driver.go)
-
-* [PostgreSQL](database/postgres)
-* [PGX v4](database/pgx)
-* [PGX v5](database/pgx/v5)
-* [Redshift](database/redshift)
-* [Ql](database/ql)
-* [Cassandra](database/cassandra)
-* [SQLite](database/sqlite)
-* [SQLite3](database/sqlite3) ([todo #165](https://github.com/mattes/migrate/issues/165))
-* [SQLCipher](database/sqlcipher)
-* [MySQL/ MariaDB](database/mysql)
-* [Neo4j](database/neo4j)
-* [MongoDB](database/mongodb)
-* [CrateDB](database/crate) ([todo #170](https://github.com/mattes/migrate/issues/170))
-* [Shell](database/shell) ([todo #171](https://github.com/mattes/migrate/issues/171))
-* [Google Cloud Spanner](database/spanner)
-* [CockroachDB](database/cockroachdb)
-* [YugabyteDB](database/yugabytedb)
-* [ClickHouse](database/clickhouse)
-* [Firebird](database/firebird)
-* [MS SQL Server](database/sqlserver)
-
-### Database URLs
-
-Database connection strings are specified via URLs. The URL format is driver dependent but generally has the form: `dbdriver://username:password@host:port/dbname?param1=true&param2=false`
-
-Any [reserved URL characters](https://en.wikipedia.org/wiki/Percent-encoding#Percent-encoding_reserved_characters) need to be escaped. Note, the `%` character also [needs to be escaped](https://en.wikipedia.org/wiki/Percent-encoding#Percent-encoding_the_percent_character)
-
-Explicitly, the following characters need to be escaped:
-`!`, `#`, `$`, `%`, `&`, `'`, `(`, `)`, `*`, `+`, `,`, `/`, `:`, `;`, `=`, `?`, `@`, `[`, `]`
-
-It's easiest to always run the URL parts of your DB connection URL (e.g. username, password, etc) through an URL encoder. See the example Python snippets below:
-
-```bash
-$ python3 -c 'import urllib.parse; print(urllib.parse.quote(input("String to encode: "), ""))'
-String to encode: FAKEpassword!#$%&'()*+,/:;=?@[]
-FAKEpassword%21%23%24%25%26%27%28%29%2A%2B%2C%2F%3A%3B%3D%3F%40%5B%5D
-$ python2 -c 'import urllib; print urllib.quote(raw_input("String to encode: "), "")'
-String to encode: FAKEpassword!#$%&'()*+,/:;=?@[]
-FAKEpassword%21%23%24%25%26%27%28%29%2A%2B%2C%2F%3A%3B%3D%3F%40%5B%5D
-$
-```
-
-## Migration Sources
-
-Source drivers read migrations from local or remote sources. [Add a new source?](source/driver.go)
-
-* [Filesystem](source/file) - read from filesystem
-* [io/fs](source/iofs) - read from a Go [io/fs](https://pkg.go.dev/io/fs#FS)
-* [Go-Bindata](source/go_bindata) - read from embedded binary data ([jteeuwen/go-bindata](https://github.com/jteeuwen/go-bindata))
-* [pkger](source/pkger) - read from embedded binary data ([markbates/pkger](https://github.com/markbates/pkger))
-* [GitHub](source/github) - read from remote GitHub repositories
-* [GitHub Enterprise](source/github_ee) - read from remote GitHub Enterprise repositories
-* [Bitbucket](source/bitbucket) - read from remote Bitbucket repositories
-* [Gitlab](source/gitlab) - read from remote Gitlab repositories
-* [AWS S3](source/aws_s3) - read from Amazon Web Services S3
-* [Google Cloud Storage](source/google_cloud_storage) - read from Google Cloud Platform Storage
-
-## CLI usage
-
-* Simple wrapper around this library.
-* Handles ctrl+c (SIGINT) gracefully.
-* No config search paths, no config files, no magic ENV var injections.
-
-__[CLI Documentation](cmd/migrate)__
-
-### Basic usage
-
-```bash
-$ migrate -source file://path/to/migrations -database postgres://localhost:5432/database up 2
-```
-
-### Docker usage
-
-```bash
-$ docker run -v {{ migration dir }}:/migrations --network host migrate/migrate
-    -path=/migrations/ -database postgres://localhost:5432/database up 2
-```
-
-## Use in your Go project
-
-* API is stable and frozen for this release (v3 & v4).
-* Uses [Go modules](https://golang.org/cmd/go/#hdr-Modules__module_versions__and_more) to manage dependencies.
-* To help prevent database corruptions, it supports graceful stops via `GracefulStop chan bool`.
-* Bring your own logger.
-* Uses `io.Reader` streams internally for low memory overhead.
-* Thread-safe and no goroutine leaks.
-
-__[Go Documentation](https://pkg.go.dev/github.com/golang-migrate/migrate/v4)__
-
-```go
-import (
-    "github.com/golang-migrate/migrate/v4"
-    _ "github.com/golang-migrate/migrate/v4/database/postgres"
-    _ "github.com/golang-migrate/migrate/v4/source/github"
-)
-
-func main() {
-    m, err := migrate.New(
-        "github://mattes:personal-access-token@mattes/migrate_test",
-        "postgres://localhost:5432/database?sslmode=enable")
-    m.Steps(2)
-}
-```
-
-Want to use an existing database client?
-
-```go
-import (
-    "database/sql"
-    _ "github.com/lib/pq"
-    "github.com/golang-migrate/migrate/v4"
-    "github.com/golang-migrate/migrate/v4/database/postgres"
-    _ "github.com/golang-migrate/migrate/v4/source/file"
-)
-
-func main() {
-    db, err := sql.Open("postgres", "postgres://localhost:5432/database?sslmode=enable")
-    driver, err := postgres.WithInstance(db, &postgres.Config{})
-    m, err := migrate.NewWithDatabaseInstance(
-        "file:///migrations",
-        "postgres", driver)
-    m.Up() // or m.Step(2) if you want to explicitly set the number of migrations to run
-}
-```
-
-## Getting started
-
-Go to [getting started](GETTING_STARTED.md)
-
-## Tutorials
-
-* [CockroachDB](database/cockroachdb/TUTORIAL.md)
-* [PostgreSQL](database/postgres/TUTORIAL.md)
-
-(more tutorials to come)
-
-## Migration files
-
-Each migration has an up and down migration. [Why?](FAQ.md#why-two-separate-files-up-and-down-for-a-migration)
-
-```bash
-1481574547_create_users_table.up.sql
-1481574547_create_users_table.down.sql
-```
-
-[Best practices: How to write migrations.](MIGRATIONS.md)
-
-## Versions
-
-Version | Supported? | Import | Notes
---------|------------|--------|------
-**master** | :white_check_mark: | `import "github.com/golang-migrate/migrate/v4"` | New features and bug fixes arrive here first |
-**v4** | :white_check_mark: | `import "github.com/golang-migrate/migrate/v4"` | Used for stable releases |
-**v3** | :x: | `import "github.com/golang-migrate/migrate"` (with package manager) or `import "gopkg.in/golang-migrate/migrate.v3"` (not recommended) | **DO NOT USE** - No longer supported |
-
-## Development and Contributing
-
-Yes, please! [`Makefile`](Makefile) is your friend,
-read the [development guide](CONTRIBUTING.md).
-
-Also have a look at the [FAQ](FAQ.md).
+<p align="center">
+<img src="https://img.shields.io/badge/Go-00ADD8.svg?style&logo=Go&logoColor=white" alt="Go" />
+<img src="https://img.shields.io/badge/Markdown-000000.svg?style&logo=Markdown&logoColor=white" alt="Markdown" />
+</p>
+<img src="https://img.shields.io/github/languages/top/atharvak1997/Banking-System?style&color=5D6D7E" alt="GitHub top language" />
+<img src="https://img.shields.io/github/languages/code-size/atharvak1997/Banking-System?style&color=5D6D7E" alt="GitHub code size in bytes" />
+<img src="https://img.shields.io/github/commit-activity/m/atharvak1997/Banking-System?style&color=5D6D7E" alt="GitHub commit activity" />
+<img src="https://img.shields.io/github/license/atharvak1997/Banking-System?style&color=5D6D7E" alt="GitHub license" />
+</div>
 
 ---
 
-Looking for alternatives? [https://awesome-go.com/#database](https://awesome-go.com/#database).
+## 📒 Table of Contents
+- [📒 Table of Contents](#-table-of-contents)
+- [📍 Overview](#-overview)
+- [⚙️ Features](#-features)
+- [📂 Project Structure](#project-structure)
+- [🧩 Modules](#modules)
+- [🚀 Getting Started](#-getting-started)
+- [🗺 Roadmap](#-roadmap)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [👏 Acknowledgments](#-acknowledgments)
+
+---
+
+
+## 📍 Overview
+
+1. You will gain a thorough understanding of database design, including generating reliable and consistent code for interacting with the database using transactions. You will also learn about database isolation levels and how to correctly utilize them in a production environment. In addition to databases, you will learn how to utilize Docker for local development, effectively use Git for code management, and leverage GitHub Actions for automated unit testing.
+
+2. You will acquire the skills to construct a collection of RESTful HTTP APIs using Gin, a widely adopted Golang framework for creating web services. This encompasses various aspects such as configuring the application, implementing robust unit testing with a simulated database, managing errors, verifying user identities, and ensuring API security through JWT and PASETO access tokens.
+
+3. You will gain knowledge on building your application using Docker and deploying it to a production Kubernetes cluster on AWS. The lectures provide comprehensive instructions with a detailed, step-by-step guide. You will learn essential topics such as building a minimal Docker image, setting up an AWS account, creating a production database, securely managing production secrets, establishing a Kubernetes cluster using EKS, automating image building and deployment to the EKS cluster using GitHub Actions, acquiring a domain name and routing traffic to your service, ensuring secure connections with HTTPS, and automatically renewing TLS certificates from Let's Encrypt.
+
+4. We will explore various advanced backend topics. These include the management of user sessions, the creation of gRPC APIs, the utilization of gRPC gateway to handle both gRPC and HTTP requests simultaneously, the integration of Swagger documentation into the backend service, the ability to update records partially by leveraging optional parameters, and the development of structured logger HTTP middlewares and gRPC interceptors.
+
+5. Asynchronous processing in Golang by implementing background workers and utilizing Redis as a message queue. Additionally, we will discuss the importance of gracefully shutting down the server to safeguard processing resources. It's worth noting that this section is continually being updated, and we will regularly upload new videos covering additional topics such as sending emails, gracefully shutting down servers, CORS (Cross-Origin Resource Sharing), bulk inserts, and more. Therefore, I encourage you to revisit this platform periodically to explore and access the latest content.
+---
+
+## ⚙️ Features
+
+
+1. Establishing and overseeing bank accounts.
+2. Documenting all modifications in the balances of individual accounts.
+3. Executing a transaction to transfer funds between two accounts.
+
+---
+
+
+## 📂 Project Structure
+
+
+
+
+---
+
+## 🧩 Modules
+
+<details closed><summary>Root</summary>
+
+| File                                                                                                                             | Summary                                                                                                                                                                                                                                                   |
+| ---                                                                                                                              | ---                                                                                                                                                                                                                                                       |
+| [go.mod](https://github.com/atharvak1997/Banking-System/blob/main/go.mod)                                                        | The code snippet is a Go module that manages a simple bank application. It requires external packages for database connectivity, testing, and handling YAML files.                                                                                        |
+| [000001_init_schema.down.sql](https://github.com/atharvak1997/Banking-System/blob/main/db\migration\000001_init_schema.down.sql) | The code snippet is responsible for dropping three database tables: entries, transfers, and accounts.                                                                                                                                                     |
+| [000001_init_schema.up.sql](https://github.com/atharvak1997/Banking-System/blob/main/db\migration\000001_init_schema.up.sql)     | This code snippet creates three tables: "accounts", "entries", and "transfers" with their respective columns. It establishes foreign key relationships between the tables, adds indexes on relevant columns, and includes comments on column constraints. |
+
+</details>
+
+---
+
+## 🚀 Getting Started
+
+### ✔️ Prerequisites
+
+Before you begin, ensure that you have the following prerequisites installed:
+> - `ℹ️ Requirement 1`
+> - `ℹ️ Requirement 2`
+> - `ℹ️ ...`
+
+### 📦 Installation
+
+1. Clone the Banking-System repository:
+```sh
+git clone https://github.com/atharvak1997/Banking-System
+```
+
+2. Change to the project directory:
+```sh
+cd Banking-System
+```
+
+3. Install the dependencies:
+```sh
+`ℹ️  INSERT-DESCRIPTION`
+```
+
+### 🎮 Using Banking-System
+
+```sh
+`ℹ️  INSERT-DESCRIPTION`
+```
+
+### 🧪 Running Tests
+```sh
+`ℹ️  INSERT-DESCRIPTION`
+```
+
+---
+
+
+## 🗺 Roadmap
+
+> - [X] `ℹ️  Task 1: Implement X`
+> - [ ] `ℹ️  Task 2: Refactor Y`
+> - [ ] `ℹ️ ...`
+
+
+---
+
+## 🤝 Contributing
+
+Contributions are always welcome! Please follow these steps:
+1. Fork the project repository. This creates a copy of the project on your account that you can modify without affecting the original project.
+2. Clone the forked repository to your local machine using a Git client like Git or GitHub Desktop.
+3. Create a new branch with a descriptive name (e.g., `new-feature-branch` or `bugfix-issue-123`).
+```sh
+git checkout -b new-feature-branch
+```
+4. Make changes to the project's codebase.
+5. Commit your changes to your local branch with a clear commit message that explains the changes you've made.
+```sh
+git commit -m 'Implemented new feature.'
+```
+6. Push your changes to your forked repository on GitHub using the following command
+```sh
+git push origin new-feature-branch
+```
+7. Create a new pull request to the original project repository. In the pull request, describe the changes you've made and why they're necessary.
+The project maintainers will review your changes and provide feedback or merge them into the main branch.
+
+---
+
+## 📄 License
+
+This project is licensed under the `ℹ️  INSERT-LICENSE-TYPE` License. See the [LICENSE](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-license-to-a-repository) file for additional info.
+
+---
+
+## 👏 Acknowledgments
+
+> - `ℹ️  List any resources, contributors, inspiration, etc.`
+
+---
+
